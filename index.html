@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a6b4c">
+<title>ZIMSEC AI Teacher</title>
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+  /* Layout: phone-first app shell. Header on top, scrolling screen, fixed bottom tab bar. Green from the bot icon. */
+  :root {
+    --bg: #f5f8f6; --fg: #14231c; --muted: #5a6b62; --accent: #0a6b4c; --accent-fg: #ffffff;
+    --card: #ffffff; --line: #d9e5de; --soft: #e8f1ec; --me: #0a6b4c; --me-fg: #ffffff;
+    --warn: #8a5a00; --warn-bg: #fff4d6; --bad: #b3261e; --bad-bg: #fde8e6; --ok: #0a6b4c; --ok-bg: #e0f3ea;
+    --head: "Space Grotesk", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1612; --fg: #e5f0ea; --muted: #9db1a7; --accent: #3fbf90; --accent-fg: #06150f;
+      --card: #14211b; --line: #25362e; --soft: #1b2b24; --me: #1f7a58; --me-fg: #ffffff;
+      --warn: #f2c66b; --warn-bg: #2d2412; --bad: #ff9a92; --bad-bg: #321a18; --ok: #6fdcb0; --ok-bg: #12291f;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--fg); font: 16px/1.5 var(--body); -webkit-text-size-adjust: 100%; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  #app { display: flex; flex-direction: column; height: 100%; max-width: 720px; margin: 0 auto; background: var(--bg); }
+  header { padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+    background: var(--accent); color: var(--accent-fg); display: flex; align-items: center; gap: 10px; }
+  header img { width: 32px; height: 32px; border-radius: 8px; }
+  header h1 { font: 700 1.05rem/1.1 var(--head); margin: 0; }
+  header small { display: block; opacity: .85; font-size: .75rem; }
+  main { flex: 1; min-height: 0; overflow-y: auto; padding: 16px max(16px, env(safe-area-inset-right)) 16px max(16px, env(safe-area-inset-left)); -webkit-overflow-scrolling: touch; }
+  nav { display: flex; border-top: 1px solid var(--line); background: var(--card); padding-bottom: env(safe-area-inset-bottom); }
+  nav button { flex: 1; border: 0; background: none; padding: 10px 4px 8px; font-size: .75rem; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+  nav button svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  nav button[aria-current="page"] { color: var(--accent); font-weight: 600; }
+  h2 { font: 700 1.25rem/1.2 var(--head); margin: 0 0 12px; }
+  h3 { font: 600 1rem/1.3 var(--head); margin: 0 0 6px; }
+  p { margin: 0 0 10px; }
+  .muted { color: var(--muted); font-size: .88rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+  .row { display: flex; gap: 10px; align-items: center; }
+  .grow { flex: 1; min-width: 0; }
+  .btn { border: 0; background: var(--accent); color: var(--accent-fg); padding: 12px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; min-height: 44px; }
+  .btn.alt { background: var(--soft); color: var(--fg); }
+  .btn.ghost { background: none; color: var(--accent); padding: 8px; min-height: 0; }
+  .btn.full { width: 100%; }
+  .btn[disabled] { opacity: .55; cursor: default; }
+  input[type=text], input[type=email], input[type=password], input[type=tel], input[type=number], select, textarea {
+    width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); min-height: 44px; }
+  textarea { resize: vertical; min-height: 110px; }
+  label { display: block; font-size: .85rem; font-weight: 500; margin: 12px 0 4px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .msg { padding: 10px 12px; border-radius: 14px; margin: 0 0 10px; max-width: 88%; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: anywhere; }
+  .msg.me { background: var(--me); color: var(--me-fg); margin-left: auto; border-bottom-right-radius: 4px; }
+  .msg.bot { background: var(--card); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+  .msg.note { max-width: 100%; background: none; color: var(--muted); font-size: .8rem; padding: 0 4px; }
+  .banner { padding: 10px 12px; border-radius: 10px; margin-bottom: 12px; font-size: .9rem; }
+  .banner.warn { background: var(--warn-bg); color: var(--warn); }
+  .banner.bad { background: var(--bad-bg); color: var(--bad); }
+  .banner.ok { background: var(--ok-bg); color: var(--ok); }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; background: var(--soft); font-size: .75rem; font-weight: 600; }
+  .composer { display: flex; gap: 8px; padding: 8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); border-top: 1px solid var(--line); background: var(--card); }
+  .composer textarea { min-height: 44px; height: 44px; max-height: 120px; resize: none; }
+  .big { font: 700 1.6rem/1.1 var(--head); }
+  .copy { font: 600 1.4rem/1.2 var(--head); letter-spacing: .02em; }
+  .paper { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .svc { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; }
+  .svc b { display: block; }
+  .svc .price { font: 700 1rem var(--head); white-space: nowrap; }
+  .center { min-height: 100%; display: flex; flex-direction: column; justify-content: center; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+  .tabs button { flex: 1; padding: 10px; border: 1px solid var(--line); background: var(--card); border-radius: 10px; font-weight: 600; cursor: pointer; }
+  .tabs button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .spin { display: inline-block; width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: sp .7s linear infinite; vertical-align: -3px; }
+  @keyframes sp { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spin { animation-duration: 2s; } }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  td { padding: 4px 0; vertical-align: top; } td:last-child { text-align: right; font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* ---- SETUP: these two values are public by design. Replace them only if you move to another Supabase project. ---- */
+const CONFIG = {
+  SUPABASE_URL: "https://hvtqtargqpbselehgvpx.supabase.co",
+  SUPABASE_KEY: "sb_publishable_iDLy94MC25EwUa722LUYsA_WwSr41XA",
+};
+
+const sb = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
+const $app = document.getElementById("app");
+let S = { me: null, tab: "chat", chat: [], busy: false, shop: null, practice: {}, authMode: "in" };
+
+/* ------------------------------ helpers ------------------------------ */
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+// WhatsApp-style *bold* and _italic_ from the tutor, rendered safely.
+const fmt = (s) => esc(s).replace(/\*([^*\n]+)\*/g, "<strong>$1</strong>").replace(/(^|[\s(])_([^_\n]+)_(?=[\s).,!?:;]|$)/g, "$1<em>$2</em>");
+const money = (n, cur = "USD") => (cur === "USD" ? "US$" : cur + " ") + Number(n).toFixed(2);
+const when = (d) => (d ? new Date(d).toLocaleString("en-GB", { timeZone: "Africa/Harare", dateStyle: "medium", timeStyle: "short" }) : "-");
+const icons = {
+  chat: '<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/></svg>',
+  practice: '<svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h6"/></svg>',
+  buy: '<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg>',
+  account: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>',
+};
+
+async function api(action, body = {}) {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { render(); throw new Error("Please sign in again."); }
+  let r;
+  try {
+    r = await fetch(CONFIG.SUPABASE_URL + "/functions/v1/web-api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + session.access_token, apikey: CONFIG.SUPABASE_KEY },
+      body: JSON.stringify({ action, ...body }),
+    });
+  } catch { throw new Error("No connection. Check your data or Wi-Fi and try again."); }
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401) { await sb.auth.signOut(); throw new Error("Please sign in again."); }
+  if (!r.ok) throw new Error(j.error || "Something went wrong. Please try again.");
+  return j;
+}
+
+function shell(inner, { nav = true, sub = "" } = {}) {
+  const tabs = [["chat", "Tutor"], ["practice", "Practice"], ["buy", "Buy"], ["account", "Account"]];
+  $app.innerHTML =
+    `<header><img src="icon.png" alt="" onerror="this.style.display='none'"><div><h1>ZIMSEC AI Teacher</h1><small>${esc(sub || (S.me?.profile.level ?? "O-Level and A-Level study helper"))}</small></div></header>` +
+    inner +
+    (nav ? `<nav aria-label="Main">${tabs.map(([k, l]) => `<button data-tab="${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${icons[k === "chat" ? "chat" : k]}${l}</button>`).join("")}</nav>` : "");
+  $app.querySelectorAll("nav [data-tab]").forEach((b) => (b.onclick = () => go(b.dataset.tab)));
+}
+const banner = (text, kind = "warn") => `<div class="banner ${kind}" role="status">${esc(text)}</div>`;
+
+async function guard(fn, el) {
+  if (S.busy) return;
+  S.busy = true;
+  try { return await fn(); }
+  catch (e) {
+    const box = document.getElementById("err");
+    if (box) { box.innerHTML = banner(e.message, "bad"); box.scrollIntoView({ block: "nearest" }); } else alert(e.message);
+  } finally { S.busy = false; }
+}
+const setBusy = (btn, on, label) => { if (!btn) return; btn.disabled = on; if (label !== undefined) btn.innerHTML = on ? '<span class="spin"></span> ' + label : btn.dataset.label; };
+
+/* ------------------------------ auth ------------------------------ */
+function authScreen(msg = "", kind = "warn") {
+  const up = S.authMode === "up";
+  const forgot = S.authMode === "forgot";
+  shell(`<main><div class="center">
+    <h2>${forgot ? "Reset your password" : up ? "Create your account" : "Sign in"}</h2>
+    <p class="muted">${forgot ? "We will email you a link to choose a new password." : "Free questions every day. Pay with EcoCash only when you want more."}</p>
+    <div id="err">${msg ? banner(msg, kind) : ""}</div>
+    <form id="authForm" autocomplete="on">
+      ${up ? `<label for="nm">Your name</label><input id="nm" type="text" autocomplete="name" maxlength="60" required>` : ""}
+      <label for="em">Email</label><input id="em" type="email" autocomplete="email" required>
+      ${forgot ? "" : `<label for="pw">Password</label><input id="pw" type="password" autocomplete="${up ? "new-password" : "current-password"}" minlength="8" required>`}
+      <p class="muted" style="margin-top:6px">${up ? "At least 8 characters." : ""}</p>
+      <button class="btn full" id="authBtn" data-label="${forgot ? "Send reset link" : up ? "Create account" : "Sign in"}">${forgot ? "Send reset link" : up ? "Create account" : "Sign in"}</button>
+    </form>
+    <p style="margin-top:16px;text-align:center">
+      ${forgot ? `<button class="btn ghost" id="toIn">Back to sign in</button>` :
+        `<button class="btn ghost" id="swap">${up ? "I already have an account" : "Create a new account"}</button>${up ? "" : `<br><button class="btn ghost" id="toForgot">Forgot password?</button>`}`}
+    </p>
+    <p class="muted" style="text-align:center;margin-top:8px">We never ask for your EcoCash PIN, password or OTP.</p>
+  </div></main>`, { nav: false, sub: "O-Level and A-Level study helper" });
+
+  const sw = document.getElementById("swap"); if (sw) sw.onclick = () => { S.authMode = up ? "in" : "up"; authScreen(); };
+  const fg = document.getElementById("toForgot"); if (fg) fg.onclick = () => { S.authMode = "forgot"; authScreen(); };
+  const bk = document.getElementById("toIn"); if (bk) bk.onclick = () => { S.authMode = "in"; authScreen(); };
+  document.getElementById("authForm").onsubmit = (e) => {
+    e.preventDefault();
+    guard(async () => {
+      const btn = document.getElementById("authBtn"); setBusy(btn, true, "Please wait");
+      const email = document.getElementById("em").value.trim();
+      try {
+        if (forgot) {
+          const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.href.split("#")[0] });
+          if (error) throw error;
+          S.authMode = "in"; return authScreen("If that email has an account, a reset link is on its way.", "ok");
+        }
+        const password = document.getElementById("pw").value;
+        if (up) {
+          const name = document.getElementById("nm").value.trim();
+          const { data, error } = await sb.auth.signUp({ email, password, options: { data: { name } } });
+          if (error) throw error;
+          if (!data.session) { S.authMode = "in"; return authScreen("Account created. Open the confirmation email we sent, then sign in.", "ok"); }
+        } else {
+          const { error } = await sb.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+        }
+      } catch (er) {
+        setBusy(btn, false, "");
+        const m = /Invalid login/i.test(er.message) ? "Wrong email or password." : /already registered/i.test(er.message) ? "That email already has an account. Sign in instead." : er.message;
+        document.getElementById("err").innerHTML = banner(m, "bad");
+      }
+    });
+  };
+}
+
+/* ------------------------------ navigation ------------------------------ */
+async function refresh() { S.me = await api("me"); }
+async function go(tab) { S.tab = tab; await renderTab(); }
+
+async function render() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { S.me = null; return authScreen(); }
+  if (!S.me) {
+    shell('<main><p class="muted"><span class="spin"></span> Loading...</p></main>', { nav: false });
+    try { await refresh(); } catch (e) { return authScreen(e.message, "bad"); }
+  }
+  if (!S.me.profile.level) return levelScreen();
+  if (!S.chat.length) S.chat = [{ r: "bot", t: `Hi${S.me.profile.name ? " " + S.me.profile.name.split(" ")[0] : ""}! Ask me anything for ${S.me.profile.level}. For example: _Maths: how do I solve x^2 - 5x + 6 = 0?_` }];
+  return renderTab();
+}
+
+function levelScreen() {
+  shell(`<main><div class="center"><h2>Which level are you in?</h2><p class="muted">I teach to the ZIMSEC syllabus for your level, and prices depend on it.</p>
+    <div id="err"></div>
+    ${S.me.levels.map((l) => `<button class="svc" data-level="${esc(l)}"><span class="grow"><b>${esc(l)}</b></span></button>`).join("")}</div></main>`, { nav: false, sub: "Choose your level" });
+  $app.querySelectorAll("[data-level]").forEach((b) => (b.onclick = () => guard(async () => {
+    S.me = await api("set_profile", { level: b.dataset.level }); S.chat = []; await render();
+  })));
+}
+
+function renderTab() {
+  return ({ chat: chatScreen, practice: practiceScreen, buy: buyScreen, account: accountScreen })[S.tab]();
+}
+
+/* ------------------------------ tutor chat ------------------------------ */
+function chatScreen() {
+  const m = S.me;
+  const left = m.premium ? '<span class="pill">Premium active</span>' : m.free_left !== null ? `<span class="pill">${m.free_left} free question${m.free_left === 1 ? "" : "s"} left today</span>` : "";
+  $app.innerHTML = "";
+  shell(`<main id="scroll"><div class="row" style="margin-bottom:12px">${left}</div><div id="log">${S.chat.map(msgHtml).join("")}</div><div id="err"></div></main>
+    <form class="composer" id="cf"><textarea id="q" rows="1" placeholder="Type your question..." maxlength="2000" aria-label="Your question"></textarea><button class="btn" id="send" data-label="Send">Send</button></form>`);
+  const sc = document.getElementById("scroll"); sc.scrollTop = sc.scrollHeight;
+  const q = document.getElementById("q");
+  q.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !matchMedia("(pointer:coarse)").matches) { e.preventDefault(); document.getElementById("cf").requestSubmit(); } });
+  document.getElementById("cf").onsubmit = (e) => {
+    e.preventDefault();
+    const text = q.value.trim(); if (!text) return;
+    guard(async () => {
+      S.chat.push({ r: "me", t: text }); q.value = "";
+      const log = document.getElementById("log");
+      log.insertAdjacentHTML("beforeend", msgHtml(S.chat[S.chat.length - 1]) + '<div class="msg bot" id="typing"><span class="spin"></span> Thinking...</div>');
+      sc.scrollTop = sc.scrollHeight;
+      const btn = document.getElementById("send"); setBusy(btn, true, "");
+      try {
+        const r = await api("chat", { text });
+        if (r.paywall) S.chat.push({ r: "bot", t: r.message, buy: true });
+        else { S.chat.push({ r: "bot", t: r.answer }); if (r.note) S.chat.push({ r: "note", t: r.note }); }
+        await refresh();
+      } catch (er) { S.chat.push({ r: "note", t: er.message }); }
+      S.busy = false; chatScreen();
+    });
+  };
+}
+function msgHtml(m) {
+  if (m.r === "note") return `<div class="msg note">${esc(m.t)}</div>`;
+  return `<div class="msg ${m.r}">${fmt(m.t)}${m.buy ? `<br><button class="btn" style="margin-top:10px" onclick="go('buy')">See prices</button>` : ""}</div>`;
+}
+
+/* ------------------------------ practice ------------------------------ */
+const FEATURES = [
+  ["assignment", "Practice assignment", "5 exam-style questions, marked by the AI."],
+  ["mock", "Mock exam", "10 questions worth 50 marks, marked with feedback."],
+  ["revision", "Revision notes", "Key ideas, worked examples and common mistakes."],
+  ["report", "Performance report", "Strengths, weak topics and a 7-day plan from your marked work."],
+];
+function practiceScreen() {
+  const P = S.practice;
+  if (S.me.state && !P.paper) P.paper = { kind: S.me.state.kind, text: S.me.state.paper };
+  let inner = '<div id="err"></div>';
+  if (P.result) {
+    inner += `<h2>Your result</h2><div class="card"><div class="big">${P.result.score}/${P.result.out_of}</div><p class="muted">${P.result.percent}%</p><p style="white-space:pre-wrap">${fmt(P.result.feedback)}</p></div>
+      <button class="btn full" id="again">Back to practice</button>`;
+  } else if (P.paper) {
+    inner += `<h2>${P.paper.kind === "mock" ? "Mock exam" : "Practice assignment"}</h2><div class="card paper">${fmt(P.paper.text)}</div>
+      <label for="ans">Your answers (number them 1., 2., 3. ...)</label><textarea id="ans" rows="8" maxlength="6000"></textarea>
+      <div class="row" style="margin-top:12px"><button class="btn alt" id="cancelPaper">Cancel</button><button class="btn grow" id="markBtn" data-label="Mark my answers">Mark my answers</button></div>`;
+  } else if (P.text) {
+    inner += `<h2>${esc(P.title)}</h2><div class="card paper">${fmt(P.text)}</div><button class="btn full" id="again">Back to practice</button>`;
+  } else if (P.pick) {
+    const f = FEATURES.find((x) => x[0] === P.pick);
+    inner += `<h2>${f[1]}</h2>` + (P.pick === "report" ? `<p class="muted">${f[2]} You need at least 2 marked papers from the last 30 days.</p>` :
+      `<label for="topic">Subject and topic</label><input id="topic" type="text" maxlength="200" placeholder="e.g. Maths - quadratic equations">`) +
+      (P.pay ? banner(`This is a premium service${P.pay.price ? " (from " + P.pay.price + ")" : ""}.`) + `<button class="btn full" onclick="go('buy')">Buy to unlock</button>` :
+        `<div class="row" style="margin-top:14px"><button class="btn alt" id="back">Back</button><button class="btn grow" id="goBtn" data-label="Start">Start</button></div>`);
+  } else {
+    inner += `<h2>Practice</h2>` + FEATURES.map(([k, t, d]) => `<button class="svc" data-pick="${k}"><span class="grow"><b>${t}</b><span class="muted">${d}</span></span></button>`).join("");
+  }
+  shell(`<main>${inner}</main>`);
+  const on = (id, fn) => { const el = document.getElementById(id); if (el) el.onclick = fn; };
+  $app.querySelectorAll("[data-pick]").forEach((b) => (b.onclick = () => { S.practice = { pick: b.dataset.pick }; practiceScreen(); }));
+  const reset = () => { S.practice = {}; refresh().then(practiceScreen); };
+  on("again", reset); on("back", reset);
+  on("cancelPaper", () => guard(async () => { await api("cancel_paper"); S.practice = {}; await refresh(); S.busy = false; practiceScreen(); }));
+  on("goBtn", () => guard(async () => {
+    const btn = document.getElementById("goBtn"); setBusy(btn, true, "Preparing, about 20 seconds");
+    try {
+      const k = P.pick;
+      const r = k === "report" ? await api("report") : await api("generate", { kind: k, topic: document.getElementById("topic").value });
+      if (r.needs_payment) { S.practice = { pick: k, pay: r }; }
+      else if (r.awaiting_answers) { S.practice = { paper: { kind: r.kind, text: r.text } }; await refresh(); }
+      else S.practice = { title: FEATURES.find((x) => x[0] === k)[1], text: r.text };
+      S.busy = false; practiceScreen();
+    } catch (e) { setBusy(btn, false, ""); throw e; }
+  }));
+  on("markBtn", () => guard(async () => {
+    const btn = document.getElementById("markBtn"); setBusy(btn, true, "Marking, about 15 seconds");
+    try {
+      const r = await api("mark", { answers: document.getElementById("ans").value });
+      S.practice = { result: r }; await refresh(); S.busy = false; practiceScreen();
+    } catch (e) { setBusy(btn, false, ""); throw e; }
+  }));
+}
+
+/* ------------------------------ buy & pay ------------------------------ */
+async function buyScreen() {
+  const B = S.shop || (S.shop = {});
+  await refresh();
+  const m = S.me;
+  let inner = '<div id="err"></div>';
+
+  if (B.order) {            // step 3: pay and submit transaction ID
+    const o = B.order;
+    inner += `<h2>Pay with EcoCash</h2>
+      <div class="card"><p class="muted">Amount</p><div class="big">${money(o.amount, o.currency)}</div>
+        <p class="muted" style="margin-top:12px">Send money to</p><div class="copy" id="payto">${esc(o.pay_to)}</div>${o.account_name ? `<p class="muted">${esc(o.account_name)}</p>` : ""}
+        <button class="btn alt" id="copyNum" style="margin-top:8px">Copy number</button>
+        <p class="muted" style="margin-top:12px">Reference: <strong>${esc(o.reference)}</strong> (type it as the reason if EcoCash asks)</p></div>
+      ${banner("Never share your EcoCash PIN, password or OTP, with us or anyone. We will never ask for them.")}
+      <ol class="muted" style="padding-left:20px"><li>Open EcoCash and choose Send Money.</li><li>Send exactly ${money(o.amount, o.currency)} to ${esc(o.pay_to)}.</li><li>Copy the transaction ID from the confirmation SMS.</li><li>Enter it below.</li></ol>
+      <label for="txn">EcoCash transaction ID</label><input id="txn" type="text" autocapitalize="characters" autocomplete="off" maxlength="30" placeholder="e.g. MP240101.1234.A12345">
+      <label for="payer">Number you paid from</label><input id="payer" type="tel" inputmode="tel" placeholder="0771234567">
+      <div class="row" style="margin-top:14px"><button class="btn alt" id="cancelOrder">Cancel order</button><button class="btn grow" id="submitPay" data-label="I have paid">I have paid</button></div>
+      <p class="muted" style="margin-top:10px">Your service starts only after we verify the payment. This order is valid until ${when(o.expires_at)}.</p>`;
+  } else if (B.code) {      // step 2: quantity, discount, total
+    const s = B.svc;
+    inner += `<h2>${esc(s.name)}</h2>
+      ${s.max_units > 1 ? `<label for="qty">How many ${esc(s.unit_label)}s? (1 to ${s.max_units})</label><input id="qty" type="number" inputmode="numeric" min="1" max="${s.max_units}" value="${B.units || 1}">` : ""}
+      <label for="disc">Discount code (optional)</label><input id="disc" type="text" autocapitalize="characters" value="${esc(B.discount || "")}" maxlength="20">
+      <div class="card" style="margin-top:14px" id="totalBox"><span class="spin"></span> Calculating price...</div>
+      <div class="row"><button class="btn alt" id="back">Back</button><button class="btn grow" id="orderBtn" data-label="Get payment details" disabled>Get payment details</button></div>`;
+  } else {                  // step 1: list
+    const pend = m.orders.map((o) => `<div class="card"><div class="row"><div class="grow"><b>${esc(o.service_name)}</b><div class="muted">${esc(o.reference)} - ${money(o.amount, o.currency)}</div></div>
+      ${o.status === "submitted" ? '<span class="pill">Being verified</span>' : `<button class="btn" data-resume="${o.id}">Pay now</button>`}</div></div>`).join("");
+    inner += `<h2>Buy or renew</h2>${m.orders.length ? `<h3>Your orders</h3>${pend}<h3 style="margin-top:16px">Services</h3>` : ""}<div id="list"><p class="muted"><span class="spin"></span> Loading prices...</p></div>
+      <p class="muted">You always see the full price before you pay.</p>`;
+  }
+  shell(`<main>${inner}</main>`);
+  const on = (id, fn) => { const el = document.getElementById(id); if (el) el.onclick = fn; };
+  const back = () => { S.shop = {}; buyScreen(); };
+
+  if (!B.code && !B.order) {
+    $app.querySelectorAll("[data-resume]").forEach((b) => (b.onclick = () => {
+      const o = m.orders.find((x) => x.id === b.dataset.resume);
+      S.shop = { order: { id: o.id, reference: o.reference, amount: o.amount, currency: o.currency, pay_to: o.pay_to, expires_at: o.expires_at, account_name: "" } }; buyScreen();
+    }));
+    try {
+      const { services } = await api("services");
+      document.getElementById("list").innerHTML = services.map((s) => `<button class="svc" data-code="${esc(s.code)}"><span class="grow"><b>${esc(s.name)}</b><span class="muted">${
+        s.kind === "access" ? (s.code === "school_term" ? "per student, per term" : `access for ${s.duration_days} day${s.duration_days > 1 ? "s" : ""}`) : "per " + esc(s.unit_label)}</span></span><span class="price">${money(s.unit_price, s.currency)}</span></button>`).join("") || '<p class="muted">No paid services are available right now.</p>';
+      const bySvc = Object.fromEntries(services.map((s) => [s.code, s]));
+      $app.querySelectorAll("[data-code]").forEach((b) => (b.onclick = () => { S.shop = { code: b.dataset.code, svc: bySvc[b.dataset.code], units: 1 }; buyScreen(); }));
+    } catch (e) { document.getElementById("err").innerHTML = banner(e.message, "bad"); }
+    return;
+  }
+
+  if (B.code && !B.order) {
+    on("back", back);
+    const orderBtn = document.getElementById("orderBtn");
+    let timer;
+    const price = async () => {
+      const units = Math.max(1, Math.floor(Number(document.getElementById("qty")?.value) || 1));
+      const discount = document.getElementById("disc").value.trim().toUpperCase();
+      B.units = units; B.discount = discount;
+      const box = document.getElementById("totalBox"); orderBtn.disabled = true;
+      try {
+        const q = await api("quote", { code: B.code, units, discount: discount || null });
+        B.quote = q;
+        box.innerHTML = `<table><tr><td>Price each</td><td>${money(q.unit_price, q.currency)}</td></tr><tr><td>Quantity</td><td>${q.units}</td></tr>${q.discount_pct > 0 ? `<tr><td>Discount</td><td>-${q.discount_pct}%</td></tr>` : ""}</table>
+          <div class="row" style="justify-content:space-between;margin-top:8px"><b>Total</b><span class="big">${money(q.amount, q.currency)}</span></div><p class="muted" style="margin:8px 0 0">This price is fixed once you continue.</p>`;
+        orderBtn.disabled = false;
+      } catch (e) { box.innerHTML = banner(e.message, "bad"); }
+    };
+    const later = () => { clearTimeout(timer); timer = setTimeout(price, 400); };
+    document.getElementById("disc").oninput = later; const qty = document.getElementById("qty"); if (qty) qty.oninput = later;
+    price();
+    orderBtn.onclick = () => guard(async () => {
+      setBusy(orderBtn, true, "Please wait");
+      try { S.shop = { order: await api("order", { code: B.code, units: B.units, discount: B.discount || null, expected_amount: B.quote.amount }) }; S.busy = false; buyScreen(); }
+      catch (e) { setBusy(orderBtn, false, ""); orderBtn.disabled = false; price(); throw e; }
+    });
+    return;
+  }
+
+  // order created
+  on("copyNum", () => { navigator.clipboard?.writeText(B.order.pay_to).then(() => (document.getElementById("copyNum").textContent = "Copied"), () => {}); });
+  on("cancelOrder", () => guard(async () => { await api("cancel_order", { order_id: B.order.id }); S.shop = {}; S.busy = false; buyScreen(); }));
+  on("submitPay", () => guard(async () => {
+    const btn = document.getElementById("submitPay"); setBusy(btn, true, "Sending");
+    try {
+      const r = await api("submit_payment", { order_id: B.order.id, txn: document.getElementById("txn").value, msisdn: document.getElementById("payer").value });
+      S.shop = { done: r.reference }; await refresh(); S.busy = false;
+      shell(`<main><div class="center" style="text-align:center"><h2>Thank you</h2><p>We received your payment details for <b>${esc(r.reference)}</b> and are verifying the payment.</p>
+        <p class="muted">Your service is switched on only after verification. Check the Account tab for your receipt. You can keep studying meanwhile.</p><button class="btn full" id="ok">Done</button></div></main>`);
+      document.getElementById("ok").onclick = () => { S.shop = {}; go("chat"); };
+    } catch (e) { setBusy(btn, false, ""); throw e; }
+  }));
+}
+
+/* ------------------------------ account ------------------------------ */
+async function accountScreen() {
+  await refresh();
+  const m = S.me;
+  const rc = m.receipts.map((r) => `<div class="card"><b>${esc(r.service)} x ${r.units}</b><div class="muted">${esc(r.receipt_no)} - ${when(r.issued_at)}</div>
+    <table><tr><td>Amount paid</td><td>${money(r.amount, r.currency)}</td></tr><tr><td>Paid to</td><td>${esc(r.pay_to)}</td></tr><tr><td>EcoCash ID</td><td>${esc(r.txn)}</td></tr><tr><td>Order</td><td>${esc(r.reference)}</td></tr></table></div>`).join("");
+  shell(`<main><h2>Account</h2><div id="err"></div>
+    <div class="card"><label for="nm" style="margin-top:0">Name</label><input id="nm" type="text" maxlength="60" value="${esc(m.profile.name || "")}">
+      <label for="lv">Level</label><select id="lv">${m.levels.map((l) => `<option ${l === m.profile.level ? "selected" : ""}>${esc(l)}</option>`).join("")}</select>
+      <p class="muted" style="margin-top:6px">${esc(m.profile.email || "")}. Changing level clears your chat memory and changes prices.</p>
+      <button class="btn full" id="saveProfile" data-label="Save">Save</button></div>
+    <h3>My access</h3>
+    ${m.access.length ? m.access.map((a) => `<div class="card row"><span class="grow"><b>${esc(a.service_name)}</b></span><span class="muted">${a.expires_at ? "until " + when(a.expires_at) : a.units_remaining + " of " + a.units + " left"}</span></div>`).join("") : '<div class="card muted">No premium access yet.</div>'}
+    ${m.orders.length ? `<h3>Payments in progress</h3>${m.orders.map((o) => `<div class="card row"><span class="grow"><b>${esc(o.service_name)}</b><div class="muted">${esc(o.reference)} - ${money(o.amount, o.currency)}</div></span><span class="pill">${o.status === "submitted" ? "Being verified" : "Awaiting payment"}</span></div>`).join("")}` : ""}
+    <h3>Receipts</h3>${rc || '<div class="card muted">Receipts appear here after a payment is verified.</div>'}
+    ${m.support_contact ? `<h3>Help</h3><div class="card">Contact support: <b>${esc(m.support_contact)}</b></div>` : ""}
+    <h3>Your data</h3><div class="card"><p class="muted">Erase your name, level, study history and chat memory. Payment records must be kept for accounting.</p><button class="btn alt full" id="erase">Erase my study data</button></div>
+    <button class="btn alt full" id="out" style="margin-top:4px">Sign out</button>
+    <p class="muted" style="text-align:center;margin-top:14px"><a href="privacy.html" style="color:inherit">Privacy policy</a></p></main>`);
+  document.getElementById("saveProfile").onclick = () => guard(async () => {
+    const btn = document.getElementById("saveProfile"); setBusy(btn, true, "Saving");
+    try {
+      const lv = document.getElementById("lv").value;
+      S.me = await api("set_profile", { name: document.getElementById("nm").value, level: lv });
+      S.chat = []; S.busy = false; await render(); await go("account");
+    } catch (e) { setBusy(btn, false, ""); throw e; }
+  });
+  document.getElementById("erase").onclick = (ev) => {
+    const b = ev.target;
+    if (b.dataset.sure !== "1") { b.dataset.sure = "1"; b.textContent = "Tap again to confirm erasing"; return; }
+    guard(async () => { await api("erase"); S.me = null; S.chat = []; S.practice = {}; S.busy = false; await render(); });
+  };
+  document.getElementById("out").onclick = async () => { await sb.auth.signOut(); S.me = null; S.chat = []; S.practice = {}; S.shop = null; authScreen(); };
+}
+
+/* ------------------------------ start ------------------------------ */
+sb.auth.onAuthStateChange((ev) => {
+  if (ev === "SIGNED_IN") { S.me = null; S.chat = []; render(); }
+  if (ev === "PASSWORD_RECOVERY") recoveryScreen();
+  if (ev === "SIGNED_OUT") { S.me = null; authScreen(); }
+});
+function recoveryScreen() {
+  shell(`<main><div class="center"><h2>Choose a new password</h2><div id="err"></div><form id="rf"><label for="np">New password</label><input id="np" type="password" minlength="8" autocomplete="new-password" required><button class="btn full" style="margin-top:14px">Save password</button></form></div></main>`, { nav: false });
+  document.getElementById("rf").onsubmit = async (e) => {
+    e.preventDefault();
+    const { error } = await sb.auth.updateUser({ password: document.getElementById("np").value });
+    if (error) document.getElementById("err").innerHTML = banner(error.message, "bad"); else { S.me = null; render(); }
+  };
+}
+render();
+</script>
+</body>
+</html>
