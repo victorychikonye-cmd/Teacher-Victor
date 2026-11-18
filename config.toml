@@ -1,0 +1,13 @@
+project_id = "zimsec-ai-teacher"
+
+# Meta calls the webhook without a Supabase JWT; it is protected by Meta's request signature instead.
+[functions.whatsapp-webhook]
+verify_jwt = false
+
+# Called by the scheduler with the CRON_SECRET header.
+[functions.daily-maintenance]
+verify_jwt = false
+
+# Called from the owner's dashboard; requires a signed-in user and checks the owner role itself.
+[functions.price-advisor]
+verify_jwt = true
