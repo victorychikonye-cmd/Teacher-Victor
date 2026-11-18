@@ -2,244 +2,144 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ZIMSEC AI Teacher · Owner Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102b46">
+<title>TEACHER VICTOR | Your personal ZIMSEC teacher</title>
 <style>
-:root{--g:#0a7d3e;--g2:#e7f4ec;--y:#f5b800;--ink:#14231a;--mut:#5d6b62;--bg:#f5f7f5;--card:#fff;--bad:#c0392b;--warn:#b7791f;--line:#e1e8e2}
-*{box-sizing:border-box}
-body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-.top{background:var(--g);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
-.top h1{margin:0;font-size:17px}.top small{opacity:.85;display:block}
-.top button{background:transparent;border:1px solid #fff8;color:#fff;border-radius:8px;padding:6px 10px}
-nav{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;background:#fff;border-bottom:1px solid var(--line)}
-nav button{border:0;background:var(--g2);color:var(--g);padding:8px 14px;border-radius:999px;font-weight:600;white-space:nowrap;font-size:14px}
-nav button.on{background:var(--g);color:#fff}
-nav .sep{width:1px;background:var(--line);margin:0 4px;flex:none}
-main{max-width:780px;margin:0 auto;padding:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
-.card h2{margin:0 0 6px;font-size:18px}
-.mut{color:var(--mut)}.sm{font-size:13px}
-.row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:4px 0}
-.tot{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-size:18px}
-label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px;color:var(--mut)}
-input,select,textarea{width:100%;padding:11px;border:1px solid #cfd8d1;border-radius:10px;font:inherit;background:#fff}
-.btn{display:block;width:100%;margin-top:12px;padding:13px;border:0;border-radius:12px;background:var(--g);color:#fff;font-weight:700;font-size:15px}
-.btn[disabled]{opacity:.5}
-.btn.ghost{background:var(--g2);color:var(--g)}.btn.bad{background:var(--bad)}.btn.sm{display:inline-block;width:auto;padding:8px 12px;font-size:13px;margin-top:0}
-.chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700}
-.chip.ok{background:#d9f2e3;color:#0a6b35}.chip.warn{background:#fdf0cf;color:#8a5a00}.chip.bad{background:#fbe0dc;color:#a52a1e}.chip.mut{background:#eceff0;color:#56626a}
-.alert{padding:12px;border-radius:12px;margin-bottom:12px;font-size:14px}
-.alert.warn{background:#fff6dd;border:1px solid #f0d58a}.alert.bad{background:#fdeceb;border:1px solid #f1b9b3}.alert.ok{background:#e7f6ec;border:1px solid #a9d9bb}
-.big{font-size:30px;font-weight:800;color:var(--g)}
-.num{font-size:22px;font-weight:800;letter-spacing:.5px}
-.kv{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}
-.kv:last-child{border:0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
-.kpi b{display:block;font-size:20px}.kpi span{font-size:12px;color:var(--mut)}
-.bars{display:flex;gap:4px;align-items:flex-end;height:110px;margin-top:8px}
-.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
-.bar i{display:block;width:100%;background:var(--g);border-radius:4px 4px 0 0;min-height:2px}
-.bar span{font-size:10px;color:var(--mut)}
-ol{padding-left:20px}li{margin:4px 0}
-.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#14231a;color:#fff;padding:10px 16px;border-radius:12px;z-index:9;max-width:90%}
-.toast.bad{background:var(--bad)}
-.click{cursor:pointer}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-@media print{body *{visibility:hidden}#receipt,#receipt *{visibility:visible}#receipt{position:absolute;left:0;top:0;width:100%;border:0}.noprint{display:none!important}}
+:root{--navy:#102b46;--blue:#2367d1;--sky:#eaf2ff;--gold:#f4b942;--ink:#15283b;--muted:#64748b;--paper:#f5f8fc;--white:#fff;--line:#e3eaf2;--green:#16865a;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:12px 16px;font-weight:700}.primary{background:var(--blue);color:white}.secondary{background:var(--sky);color:var(--navy)}.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}.danger{background:#fff0ef;color:var(--red)}.small{padding:8px 11px;font-size:13px}.hidden{display:none!important}.muted{color:var(--muted)}.tiny{font-size:12px}.shell{min-height:100vh}.top{background:var(--navy);color:white;padding:14px max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.2px}.logo{width:42px;height:42px;border-radius:13px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:1000;font-size:20px}.top small{display:block;color:#c8d7e8;font-weight:500}.top-actions{display:flex;gap:8px;align-items:center}.wrap{max-width:1180px;margin:auto;padding:24px 18px 50px}.hero{background:linear-gradient(120deg,#102b46,#194a78);color:white;border-radius:24px;padding:30px;display:grid;grid-template-columns:1.4fr .8fr;gap:20px;overflow:hidden}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.08;margin:10px 0 12px}.hero p{color:#d7e5f4;max-width:620px}.hero-art{display:grid;place-items:center;min-height:180px}.hero-card{background:#ffffff14;border:1px solid #ffffff32;border-radius:20px;padding:20px;width:min(100%,280px);transform:rotate(2deg)}.hero-card strong{font-size:40px;display:block;color:var(--gold)}.tag{display:inline-flex;background:#ffffff1c;border:1px solid #ffffff30;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.5px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:18px}.card{background:white;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 5px 18px #102b4608}.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.section-title h2,.section-title h3{margin:0}.section-title h2{font-size:21px}.section-title h3{font-size:17px}.stat{font-size:28px;font-weight:900;color:var(--navy)}.stat-label{font-size:13px;color:var(--muted)}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat-box{background:#f7faff;border:1px solid var(--line);border-radius:14px;padding:14px}.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 12px}.tab{white-space:nowrap;background:white;color:var(--muted);border:1px solid var(--line)}.tab.active{background:var(--navy);color:white;border-color:var(--navy)}label{display:block;font-size:13px;font-weight:800;margin:12px 0 6px}input,select,textarea{width:100%;border:1px solid #ccd7e4;border-radius:11px;padding:12px;background:white;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2367d120}textarea{min-height:110px;resize:vertical}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.pill{border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800;background:#eaf7f1;color:var(--green)}.pill.warn{background:#fff4dd;color:#946200}.message{padding:12px 14px;border-radius:12px;background:#f1f6ff;margin:9px 0;white-space:pre-wrap}.message.ai{background:#f5f8fc;border:1px solid var(--line)}.message.user{background:#eaf2ff;margin-left:8%}.notice{padding:13px 14px;background:#fff8e8;border:1px solid #f1dfb4;border-radius:13px;color:#704d00;font-size:13px}.success{background:#ecfdf3;border:1px solid #b7ebcb;color:#12643d}.error{background:#fff0ef;border:1px solid #ffd0cb;color:#9f1d16}.auth{max-width:480px;margin:40px auto}.auth .card{padding:26px}.subject-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.subject{border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;background:#fff;color:var(--ink)}.subject:hover{border-color:var(--blue)}.paper{background:#fffdf7;border:1px solid #eee4ca;border-radius:14px;padding:18px;white-space:pre-wrap;line-height:1.7}.footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 10px}.progress{height:9px;border-radius:99px;background:#e8edf4;overflow:hidden}.progress>i{display:block;height:100%;background:var(--blue);width:0}.list{display:grid;gap:9px}.list-item{padding:12px;border:1px solid var(--line);border-radius:12px;display:flex;justify-content:space-between;gap:10px}.chatlog{max-height:440px;overflow:auto;display:flex;flex-direction:column;gap:7px;padding:5px}.paybox{background:#f6f9ff;border:1px dashed #9eb8dc;border-radius:14px;padding:16px}.hidden-print{display:block}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:23px}.hero-art{display:none}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 12}.stat-grid{grid-template-columns:1fr 1fr}.subject-grid{grid-template-columns:1fr 1fr}.top{padding:12px 15px}.top-actions .muted{display:none}.wrap{padding:17px 13px 35px}}
 </style>
 </head>
 <body>
-<div id="root"></div>
+<div class="shell">
+<header class="top">
+ <div class="brand"><div class="logo">V</div><div>TEACHER VICTOR<small>Your personal ZIMSEC learning teacher</small></div></div>
+ <div class="top-actions"><span id="userLabel" class="muted tiny"></span><button id="logoutBtn" class="ghost small hidden">Sign out</button></div>
+</header>
+<main class="wrap">
+<section id="authView" class="auth">
+ <div class="hero" style="display:block;padding:25px;margin-bottom:16px"><span class="tag">ZIMSEC O-LEVEL + A-LEVEL</span><h1>Learn with confidence.</h1><p>Ask questions, practise, complete homework and prepare for exams with a patient AI teacher.</p></div>
+ <div class="card">
+  <div class="section-title"><h2 id="authTitle">Welcome back</h2><span class="pill">30 days free</span></div>
+  <div id="authError" class="notice error hidden"></div>
+  <form id="authForm">
+   <div id="nameField" class="hidden"><label for="studentName">Your name</label><input id="studentName" maxlength="60" autocomplete="name" placeholder="Enter your name"></div>
+   <label for="email">Email address</label><input id="email" type="email" required autocomplete="email" placeholder="you@example.com">
+   <label for="password">Password</label><input id="password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters">
+   <button id="authSubmit" class="primary" style="width:100%;margin-top:17px">Sign in</button>
+  </form>
+  <p class="tiny muted" id="authSwitch">New student? <a href="#" id="toggleAuth">Create an account</a></p>
+  <p class="tiny muted">Students under 18 should ask a parent or guardian to help with account and payment decisions.</p>
+ </div>
+</section>
+<section id="appView" class="hidden">
+ <div class="hero">
+  <div><span class="tag">YOUR DIGITAL CLASSROOM</span><h1 id="welcome">Welcome to class.</h1><p>Choose a subject, ask Teacher Victor a question, practise what you have learned and track your progress.</p><div class="row" style="max-width:450px"><div><label for="levelSelect" style="color:#d7e5f4">Your level</label><select id="levelSelect"><option value="">Choose your level</option><option>Form 1</option><option>Form 2</option><option>Form 3</option><option>Form 4</option><option>Lower 6</option><option>Upper 6</option></select></div><div style="align-self:end"><button id="saveProfile" class="primary">Save level</button></div></div></div>
+  <div class="hero-art"><div class="hero-card"><span class="tag">YOUR LEARNING JOURNEY</span><strong>30</strong><b>days of free learning</b><p class="tiny">Simple explanations. Practice. Progress.</p></div></div>
+ </div>
+ <div class="grid">
+  <div class="card span-12">
+   <div class="section-title"><h2>Your learning overview</h2><span id="trialPill" class="pill warn">Free trial</span></div>
+   <div class="stat-grid">
+    <div class="stat-box"><div class="stat" id="trialDays">30 days</div><div class="stat-label">Trial time remaining</div></div>
+    <div class="stat-box"><div class="stat" id="completedCount">0</div><div class="stat-label">Marked exercises and tests</div></div>
+    <div class="stat-box"><div class="stat" id="averageScore">—</div><div class="stat-label">Average mark</div></div>
+   </div>
+   <p id="trialText" class="tiny muted" style="margin-bottom:0">Your free month starts when your student account is created.</p>
+  </div>
+  <div class="span-12 tabs">
+   <button class="tab active" data-tab="tutor">AI Teacher</button><button class="tab" data-tab="practice">Exercises & homework</button><button class="tab" data-tab="mock">Mock tests</button><button class="tab" data-tab="progress">My progress</button><button class="tab" data-tab="billing">Membership</button>
+  </div>
+  <section id="tab-tutor" class="card span-8">
+   <div class="section-title"><h2>Ask Teacher Victor</h2><span class="pill">AI tutor</span></div>
+   <p class="muted tiny">Ask for a lesson, an explanation, a worked example or help understanding a difficult topic.</p>
+   <div id="chatLog" class="chatlog"><div class="message ai">Hello! I am Teacher Victor. Choose your level, then tell me what you are learning. I will explain it step by step in simple English.</div></div>
+   <form id="chatForm"><label for="chatInput">Your question</label><textarea id="chatInput" maxlength="2000" placeholder="For example: Explain photosynthesis in simple steps..." required></textarea><div class="actions"><button class="primary" type="submit">Ask Teacher Victor</button><button class="ghost" type="button" id="clearChat">Clear chat</button></div></form>
+   <div id="chatStatus" class="tiny muted"></div>
+  </section>
+  <aside class="card span-4">
+   <h3>Quick study tips</h3><div class="list">
+    <div class="list-item"><span>1. Study one topic at a time</span><b>✓</b></div>
+    <div class="list-item"><span>2. Try questions without notes</span><b>✓</b></div>
+    <div class="list-item"><span>3. Read your marking feedback</span><b>✓</b></div>
+   </div>
+   <div class="notice" style="margin-top:14px">Teacher Victor helps you learn. Always check important exam dates and official instructions with your school.</div>
+  </aside>
+  <section id="tab-practice" class="card span-12 hidden">
+   <div class="section-title"><h2>Exercises and homework</h2><span class="pill">Practice makes progress</span></div>
+   <p class="muted">Choose a subject and topic. Teacher Victor will prepare questions for you to answer and submit for marking.</p>
+   <div class="row"><div><label for="assignmentSubject">Subject</label><input id="assignmentSubject" list="subjects" placeholder="e.g. Mathematics"></div><div><label for="assignmentTopic">Topic</label><input id="assignmentTopic" placeholder="e.g. Quadratic equations"></div></div>
+   <datalist id="subjects"><option>Mathematics</option><option>English Language</option><option>Shona</option><option>Biology</option><option>Physics</option><option>Chemistry</option><option>Geography</option><option>History</option><option>Combined Science</option><option>Commerce</option><option>Accounting</option><option>Computer Science</option><option>Economics</option><option>Business Studies</option><option>Agriculture</option><option>Literature in English</option><option>Pure Mathematics</option><option>Applied Mathematics</option><option>Statistics</option></datalist>
+   <div class="actions"><button id="makeAssignment" class="primary">Create homework</button><button id="makeRevision" class="secondary">Make revision notes</button></div>
+   <div id="practiceResult" class="hidden" style="margin-top:18px"><div class="section-title"><h3>Your paper</h3><button id="cancelPaper" class="ghost small">Close paper</button></div><div id="practicePaper" class="paper"></div><label for="practiceAnswers">Write your answers here</label><textarea id="practiceAnswers" placeholder="Number your answers clearly: 1., 2., 3. ..."></textarea><button id="submitPractice" class="primary" style="margin-top:10px">Submit for marking</button></div>
+   <div id="practiceFeedback" class="message hidden"></div>
+  </section>
+  <section id="tab-mock" class="card span-12 hidden">
+   <div class="section-title"><h2>Mock examinations</h2><span class="pill">Exam preparation</span></div>
+   <p class="muted">Create a timed-style practice paper for your level. Answer it and receive marks with clear feedback.</p>
+   <div class="row"><div><label for="mockSubject">Subject</label><input id="mockSubject" list="subjects" placeholder="e.g. Biology"></div><div><label for="mockTopic">Topic or paper section</label><input id="mockTopic" placeholder="e.g. Cell structure"></div></div>
+   <button id="makeMock" class="primary" style="margin-top:12px">Create mock test</button>
+   <div id="mockResult" class="hidden" style="margin-top:18px"><div class="section-title"><h3>Mock test paper</h3><span class="pill warn">Practice paper</span></div><div id="mockPaper" class="paper"></div><label for="mockAnswers">Your answers</label><textarea id="mockAnswers" placeholder="Number your answers clearly..."></textarea><button id="submitMock" class="primary" style="margin-top:10px">Submit mock test</button></div>
+   <div id="mockFeedback" class="message hidden"></div>
+  </section>
+  <section id="tab-progress" class="card span-12 hidden">
+   <div class="section-title"><h2>My progress</h2><button id="refreshProgress" class="secondary small">Refresh results</button></div>
+   <div id="progressList" class="list"><p class="muted">Your marked work will appear here.</p></div>
+   <button id="makeReport" class="primary" style="margin-top:15px">Create my performance report</button><div id="reportResult" class="message hidden"></div>
+  </section>
+  <section id="tab-billing" class="card span-12 hidden">
+   <div class="section-title"><h2>Membership and payments</h2><span class="pill warn">$5 / month</span></div>
+   <div class="paybox"><h3>One month free. Then $5 per month.</h3><p>After your 30-day free trial, continue learning with the monthly Teacher Victor membership.</p><p><b>EcoCash number:</b> <span id="payNumber">0786610390</span></p><p class="tiny muted">A parent or guardian should help younger students with payments. Never share your EcoCash PIN or password.</p><button id="buyMonthly" class="primary">Get monthly membership — $5</button></div>
+   <div id="paymentStep" class="hidden" style="margin-top:18px">
+    <h3>Payment instructions</h3><div id="orderDetails" class="notice"></div>
+    <p>After the payment is made, enter the transaction ID from the EcoCash confirmation message. The membership will only activate after payment is checked.</p>
+    <form id="paymentForm"><label for="txnId">EcoCash transaction ID</label><input id="txnId" required maxlength="30" placeholder="Enter transaction ID"><label for="payerPhone">Phone number used to pay (optional)</label><input id="payerPhone" maxlength="16" placeholder="07..."><button class="primary" type="submit" style="margin-top:12px">Submit payment for checking</button></form>
+   </div>
+   <div id="paymentStatus" class="message hidden"></div>
+  </section>
+ </div>
+</section>
+<div class="footer">TEACHER VICTOR · ZIMSEC O-Level and A-Level learning · Simple English for every student</div>
+</main>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ---------- CONFIG: paste your Supabase values (or set window.zimsecSupabase before this script) ---------- */
-const CONFIG = { SUPABASE_URL: 'YOUR_SUPABASE_URL', SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY' };
-const sb = window.zimsecSupabase || supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-
-/* ---------- helpers ---------- */
-const S = { tab: 'dash', uid: null, role: null, cfg: null, txId: null, txStatus: '', txQ: '' };
-const $ = s => document.querySelector(s);
-const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const money = (n, c) => { c = c || S.cfg?.currency || 'USD'; try { return new Intl.NumberFormat('en-ZW', { style: 'currency', currency: c }).format(n) } catch { return c + ' ' + Number(n).toFixed(2) } };
-const when = d => d ? new Date(d).toLocaleString('en-GB', { timeZone: 'Africa/Harare', dateStyle: 'medium', timeStyle: 'short' }) : '—';
-const cap = s => s ? s[0].toUpperCase() + s.slice(1) : '';
-const toast = (m, bad) => { const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = m; document.body.append(t); setTimeout(() => t.remove(), 4200) };
-const rpc = async (n, a = {}) => { const { data, error } = await sb.rpc(n, a); if (error) throw error; return data };
-const guard = fn => async (...a) => { try { await fn(...a) } catch (e) { toast(e.message || String(e), true) } };
-const debounce = (f, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms) } };
-const CHIP = { verified: 'ok', submitted: 'warn', awaiting_payment: 'mut', rejected: 'bad', expired: 'mut', cancelled: 'mut', active: 'ok', used: 'mut', pending: 'warn', approved: 'ok' };
-const chip = s => `<span class="chip ${CHIP[s] || 'mut'}">${esc(String(s).replace('_', ' '))}</span>`;
-const isStaff = () => !!S.role;
-const isOwner = () => S.role === 'owner';
-
-/* ---------- boot & sign-in ---------- */
-async function boot() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) return signIn();
-  S.uid = session.user.id;
-  S.cfg = await rpc('zpay_public_config');
-  S.role = await rpc('zpay_my_role');
-  if (!S.role) {
-    $('#root').innerHTML = `<div class="top"><h1>ZIMSEC AI Teacher<small>Owner dashboard</small></h1><button data-act="out">Sign out</button></div>
-    <main><div class="alert bad">This account is not an administrator. Students use ZIMSEC AI Teacher on WhatsApp. Ask the owner to add you in <b>zpay_admins</b>.</div></main>`;
-    return;
-  }
-  shell(); draw();
-}
-function signIn() {
-  $('#root').innerHTML = `<div class="top"><h1>ZIMSEC AI Teacher<small>Owner dashboard: sign in</small></h1></div>
-  <main><div class="card"><label>Email</label><input id="em" type="email" autocomplete="email">
-  <label>Password</label><input id="pw" type="password" autocomplete="current-password">
-  <button class="btn" data-act="login">Sign in</button></div></main>`;
-}
-/* ---------- shell ---------- */
-function shell() {
-  const adm = [['dash', 'Dashboard'], ['tx', 'Transactions'], ['svc', 'Pricing'], ['set', 'Settings'], ['audit', 'Audit log']];
-  $('#root').innerHTML = `<div class="top"><h1>ZIMSEC AI Teacher<small>Owner dashboard · ${esc(cap(S.role))}</small></h1><button data-act="out">Sign out</button></div>
-  <nav>${adm.map(([t, l]) => `<button data-act="tab" data-t="${t}">${l}</button>`).join('')}</nav>
-  <main><div id="view"></div></main>`;
-}
-async function draw() {
-  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.t === S.tab));
-  try { await V[S.tab]() } catch (e) { $('#view').innerHTML = `<div class="alert bad">${esc(e.message || e)}</div>` }
-}
-
-const V = {};
-
-/* ---------- ADMIN ---------- */
-V.dash = async () => {
-  const d = await rpc('zpay_dashboard'), m = n => money(n, d.currency);
-  const mx = Math.max(1, ...d.daily.map(x => +x.revenue));
-  const k = (l, v, st) => `<div class="kpi ${st ? 'click' : ''}" ${st ? `data-act="txf" data-st="${st}"` : ''}><b>${v}</b><span>${l}</span></div>`;
-  $('#view').innerHTML = `<div class="grid">${k('Total revenue', m(d.total_revenue))}${k('Today', m(d.today))}${k('This week', m(d.week))}${k('This month', m(d.month))}
-  ${k('Subscription revenue', m(d.subscription_revenue))}${k('Paying students', d.paying_students)}${k('Successful payments', d.successful, 'verified')}
-  ${k('Pending verification', d.pending_verification, 'submitted')}${k('Awaiting payment', d.awaiting_payment, 'awaiting_payment')}${k('Failed / expired', d.failed, 'rejected')}</div>
-  <div class="card" style="margin-top:12px"><b>Revenue, last 14 days</b><div class="bars">${d.daily.map(x =>
-    `<div class="bar" title="${esc(x.day)}: ${m(x.revenue)}"><i style="height:${Math.round(+x.revenue / mx * 100)}%"></i><span>${esc(x.day.slice(8))}</span></div>`).join('')}</div></div>
-  <div class="card"><b>Most purchased services</b>${d.top_services.length ? d.top_services.map(t =>
-    `<div class="row"><span>${esc(t.name)}</span><span class="mut">${t.purchases} sold · <b>${m(t.revenue)}</b></span></div>`).join('') : '<p class="mut">No sales yet.</p>'}</div>
-  <button class="btn ghost" data-act="tab" data-t="dash">Refresh</button>`;
-};
-V.tx = async () => {
-  const rows = await rpc('zpay_admin_transactions', { p_status: S.txStatus || null, p_search: S.txQ || null, p_limit: 100 });
-  S.rows = rows;
-  const sel = S.txId ? rows.find(r => r.id === S.txId) : null;
-  let h = `<div class="card"><div class="two"><select id="fst">${['', 'submitted', 'awaiting_payment', 'verified', 'rejected', 'expired', 'cancelled']
-    .map(s => `<option value="${s}" ${s === S.txStatus ? 'selected' : ''}>${s ? s.replace('_', ' ') : 'All statuses'}</option>`).join('')}</select>
-  <input id="fq" placeholder="Search ref, txn ID, phone number" value="${esc(S.txQ)}"></div>
-  <button class="btn sm" style="margin-top:8px" data-act="txsearch">Search</button></div>`;
-  if (sel) {
-    h += `<div class="card"><div class="row"><h2>${esc(sel.reference)}</h2>${chip(sel.status)}</div>
-    ${[['Student', (sel.user_name || '') + ' ' + (sel.user_phone || '')], ['Service', sel.service_name + ' × ' + sel.units], ['Expected amount', money(sel.amount, sel.currency)],
-      ['Paid to', sel.pay_to], ['Payer number', sel.payer_msisdn], ['EcoCash transaction ID', sel.ecocash_txn_id], ['Created', when(sel.created_at)],
-      ['Submitted', when(sel.submitted_at)], ['Decided', when(sel.verified_at)], ['Receipt', sel.receipt_no], ['Decided by', sel.verified_by_label], ['Note', sel.admin_note]]
-      .map(([k, v]) => `<div class="kv"><span class="mut">${k}</span><b style="text-align:right">${esc(v || '—')}</b></div>`).join('')}
-    ${sel.status === 'submitted' ? `<div class="alert warn sm" style="margin-top:10px">Before approving, confirm in your EcoCash statement that <b>${money(sel.amount, sel.currency)}</b> arrived in <b>${esc(sel.pay_to)}</b> from <b>${esc(sel.payer_msisdn)}</b> with transaction ID <b>${esc(sel.ecocash_txn_id)}</b>.</div>
-    <label>Note (optional)</label><input id="nt"><div class="two"><button class="btn" data-act="verify" data-id="${sel.id}">Verify &amp; activate</button><button class="btn bad" data-act="reject" data-id="${sel.id}">Reject</button></div>` : ''}
-    <button class="btn ghost" data-act="txclose">Close</button></div>`;
-  }
-  h += rows.map(r => `<div class="card click" data-act="txopen" data-id="${r.id}"><div class="row"><b>${esc(r.service_name)}</b>${chip(r.status)}</div>
-    <div class="row sm mut"><span>${esc(r.reference)} · ${esc(r.user_phone || '')}</span><b>${money(r.amount, r.currency)}</b></div><div class="sm mut">${when(r.created_at)}</div></div>`).join('') || '<div class="card mut">No transactions match.</div>';
-  $('#view').innerHTML = h;
-};
-V.svc = async () => {
-  const { data: sv, error } = await sb.from('zpay_services').select('*').order('name'); if (error) throw error;
-  const { data: recs } = await sb.from('zpay_price_recs').select('*,zpay_services(name)').eq('status', 'pending').order('created_at', { ascending: false });
-  const dis = isOwner() ? '' : 'disabled';
-  const f = (s, k, l, step = '0.01') => `<div><label>${l}</label><input type="number" step="${step}" data-sid="${s.id}" data-f="${k}" value="${s[k]}" ${dis}></div>`;
-  let h = (recs || []).map(r => `<div class="alert warn"><b>AI recommendation: ${esc(r.zpay_services.name)}</b><br>
-    Unit price ${money(r.current_unit_price)} → <b>${money(r.proposed_unit_price)}</b> (margin ${r.current_margin}% → ${r.proposed_margin}%)<br>
-    <span class="sm">${esc(r.rationale || '')}</span>
-    ${isOwner() ? `<div class="two" style="margin-top:8px"><button class="btn sm" data-act="recdec" data-id="${r.id}" data-ok="1">Approve</button><button class="btn bad sm" data-act="recdec" data-id="${r.id}" data-ok="0">Reject</button></div>` : ''}</div>`).join('');
-  h += (isOwner() ? '' : '<div class="alert warn sm">Only the owner can change prices.</div>') + sv.map(s => `<div class="card">
-    <div class="row"><b>${esc(s.name)}</b>${chip(s.enabled ? 'active' : 'expired').replace('expired', 'suspended')}</div>
-    <div class="two">${f(s, 'min_price', 'Min price / unit')}${f(s, 'max_price', 'Max price / unit')}${f(s, 'ai_cost_per_unit', 'AI cost / unit', '0.0001')}
-    ${f(s, 'margin_pct', 'Margin %')}${f(s, 'ops_overhead_pct', 'Operating overhead %')}${f(s, 'fixed_cost', 'Fixed cost')}</div>
-    ${isOwner() ? `<div class="actions" style="margin-top:10px"><button class="btn sm" data-act="svcsave" data-id="${s.id}">Save</button>
-    <button class="btn ghost sm" data-act="svctoggle" data-id="${s.id}" data-on="${s.enabled ? 0 : 1}">${s.enabled ? 'Suspend service' : 'Enable service'}</button>
-    <button class="btn ghost sm" data-act="advise" data-id="${s.id}">Ask AI for price advice</button></div>` : ''}</div>`).join('');
-  $('#view').innerHTML = h;
-};
-V.set = async () => {
-  const { data: st } = await sb.from('zpay_settings').select('*').single();
-  const { data: dc } = await sb.from('zpay_discounts').select('*').order('code');
-  const dis = isOwner() ? '' : 'disabled';
-  $('#view').innerHTML = `<div class="card"><h2>EcoCash settings</h2>
-  <label>EcoCash destination number</label><input id="s_num" inputmode="tel" value="${esc(st.ecocash_number)}" ${dis}>
-  <label>Account name shown to students (optional)</label><input id="s_name" value="${esc(st.ecocash_account_name)}" ${dis}>
-  <label>Support contact shown to students (optional)</label><input id="s_sup" value="${esc(st.support_contact)}" ${dis}>
-  <div class="two"><div><label>Free questions per student per day</label><input id="s_free" type="number" min="0" max="100" value="${st.free_daily_questions}" ${dis}></div><div></div>
-  <div><label>Expiry reminder (days before)</label><input id="s_days" type="number" value="${st.expiry_notice_days}" ${dis}></div>
-  <div><label>Order valid for (minutes)</label><input id="s_min" type="number" value="${st.order_valid_minutes}" ${dis}></div></div>
-  ${isOwner() ? '<button class="btn" data-act="setsave">Save settings</button>' : '<p class="mut sm">Only the owner can change these.</p>'}</div>
-  <div class="card"><h2>Discounts</h2>${(dc || []).map(d => `<div class="row"><span><b>${esc(d.code)}</b> · ${d.percent}% · used ${d.used_count}${d.max_uses ? '/' + d.max_uses : ''}${d.ends_at ? ' · ends ' + when(d.ends_at) : ''}</span>
-  ${isOwner() ? `<button class="btn ghost sm" data-act="disctoggle" data-code="${esc(d.code)}" data-on="${d.active ? 0 : 1}">${d.active ? 'Stop' : 'Start'}</button>` : chip(d.active ? 'active' : 'expired')}</div>`).join('') || '<p class="mut">No discounts.</p>'}
-  ${isOwner() ? `<div class="two"><div><label>Code</label><input id="d_code"></div><div><label>Percent (max 90)</label><input id="d_pct" type="number"></div>
-  <div><label>Ends on (optional)</label><input id="d_end" type="date"></div><div><label>Max uses (optional)</label><input id="d_max" type="number"></div></div>
-  <button class="btn ghost" data-act="discadd">Add discount</button>` : ''}</div>
-  ${isOwner() ? `<div class="card"><h2>Export financial report</h2><div class="two"><div><label>From</label><input id="x_from" type="date"></div><div><label>To</label><input id="x_to" type="date"></div></div>
-  <button class="btn" data-act="export">Download CSV</button></div>` : ''}`;
-};
-V.audit = async () => {
-  const { data, error } = await sb.from('zpay_audit').select('*').order('id', { ascending: false }).limit(100); if (error) throw error;
-  $('#view').innerHTML = data.map(a => `<div class="card sm"><div class="row"><b>${esc(a.action)}</b><span class="mut">${when(a.at)}</span></div>
-  <div class="mut">${esc(a.entity)} ${esc(a.entity_id || '')} · actor ${esc((a.actor || 'system').toString().slice(0, 8))}</div></div>`).join('');
-};
-
-/* ---------- CSV (guards against spreadsheet formula injection) ---------- */
-const csvCell = v => { let s = String(v ?? ''); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s };
-
-/* ---------- actions ---------- */
-const reload = () => draw();
-const A = {
-  tab: d => { S.tab = d.t; S.txId = null; draw() },
-  out: async () => { await sb.auth.signOut(); location.reload() },
-  login: async () => { const { error } = await sb.auth.signInWithPassword({ email: $('#em').value, password: $('#pw').value }); if (error) throw error; boot() },
-  /* admin */
-  txf: d => { S.txStatus = d.st; S.txQ = ''; S.tab = 'tx'; draw() },
-  txsearch: () => { S.txStatus = $('#fst').value; S.txQ = $('#fq').value.trim(); S.txId = null; draw() },
-  txopen: d => { S.txId = d.id; draw() },
-  txclose: () => { S.txId = null; draw() },
-  verify: async d => { if (!confirm('Verify this payment and activate the service?')) return; await rpc('zpay_admin_verify', { p_order: d.id, p_approve: true, p_note: $('#nt').value || null }); toast('Verified. Service activated.'); draw() },
-  reject: async d => { if (!confirm('Reject this payment?')) return; await rpc('zpay_admin_verify', { p_order: d.id, p_approve: false, p_note: $('#nt').value || null }); toast('Payment rejected'); draw() },
-  svcsave: async d => {
-    const p = {}; document.querySelectorAll(`[data-sid="${d.id}"]`).forEach(i => p[i.dataset.f] = +i.value);
-    if (p.min_price > p.max_price) throw new Error('Minimum price cannot exceed maximum price');
-    const { error } = await sb.from('zpay_services').update(p).eq('id', d.id); if (error) throw error; toast('Saved (applies to new orders only)'); draw();
-  },
-  svctoggle: async d => { const { error } = await sb.from('zpay_services').update({ enabled: d.on === '1' }).eq('id', d.id); if (error) throw error; draw() },
-  advise: async d => {
-    toast('Asking AI for a recommendation…');
-    const { data, error } = await sb.functions.invoke('price-advisor', { body: { service_id: d.id } });
-    if (error) throw error; if (data?.error) throw new Error(data.error); toast('Recommendation ready for your approval'); draw();
-  },
-  recdec: async d => { await rpc('zpay_decide_rec', { p_rec: d.id, p_approve: d.ok === '1' }); toast(d.ok === '1' ? 'Approved. New price applies to new orders.' : 'Rejected'); draw() },
-  setsave: async () => {
-    const n = $('#s_num').value.replace(/\s/g, '');
-    if (!/^07[78][0-9]{7}$/.test(n)) throw new Error('Enter a valid EcoCash number, e.g. 0786610390');
-    if (!confirm('Students will be told to pay ' + n + '. Continue?')) return;
-    const { error } = await sb.from('zpay_settings').update({ ecocash_number: n, ecocash_account_name: $('#s_name').value, support_contact: $('#s_sup').value, free_daily_questions: +$('#s_free').value, expiry_notice_days: +$('#s_days').value, order_valid_minutes: +$('#s_min').value }).eq('id', true);
-    if (error) throw error; S.cfg = await rpc('zpay_public_config'); toast('Settings saved'); draw();
-  },
-  discadd: async () => {
-    const end = $('#d_end').value;
-    const { error } = await sb.from('zpay_discounts').insert({ code: $('#d_code').value.trim().toUpperCase(), percent: +$('#d_pct').value, ends_at: end ? new Date(end + 'T23:59:59+02:00').toISOString() : null, max_uses: +$('#d_max').value || null });
-    if (error) throw error; draw();
-  },
-  disctoggle: async d => { const { error } = await sb.from('zpay_discounts').update({ active: d.on === '1' }).eq('code', d.code); if (error) throw error; draw() },
-  export: async () => {
-    const f = $('#x_from').value, t = $('#x_to').value; if (!f || !t) throw new Error('Choose a date range');
-    const rows = await rpc('zpay_export_report', { p_from: f, p_to: t });
-    if (!rows.length) throw new Error('No verified payments in that range');
-    const cols = Object.keys(rows[0]);
-    const csv = [cols.join(','), ...rows.map(r => cols.map(c => csvCell(r[c])).join(','))].join('\n');
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = `zimsec-revenue-${f}_${t}.csv`; a.click();
-  }
-};
-document.addEventListener('click', e => { const b = e.target.closest('[data-act]'); const f = b && A[b.dataset.act]; if (f) guard(f)(b.dataset, b) });
-boot().catch(e => { $('#root').innerHTML = `<main><div class="alert bad">${esc(e.message || e)}<br>Check CONFIG at the top of this file.</div></main>` });
+const SUPABASE_URL = "https://hvtqtargqpbselehgvpx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_iDLy94MC25EwUa722LUYsA_WwSr41XA";
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+let signingUp=false, profile=null, currentPaper=null, currentPaperKind=null, currentOrder=null;
+const $=id=>document.getElementById(id);
+const show=(el,on=true)=>$(el).classList.toggle("hidden",!on);
+const safe=(s)=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function notice(id,msg,kind=""){const el=$(id);el.textContent=msg;el.className="message "+kind;}
+function switchAuth(){signingUp=!signingUp;$("authTitle").textContent=signingUp?"Create your student account":"Welcome back";show("nameField",signingUp);$("authSubmit").textContent=signingUp?"Create account":"Sign in";$("authSwitch").innerHTML=signingUp?'Already registered? <a href="#" id="toggleAuth">Sign in</a>':'New student? <a href="#" id="toggleAuth">Create an account</a>'; $("toggleAuth").onclick=e=>{e.preventDefault();switchAuth()};$("password").autocomplete=signingUp?"new-password":"current-password";}
+$("toggleAuth").onclick=e=>{e.preventDefault();switchAuth()};
+$("authForm").addEventListener("submit",async e=>{e.preventDefault();$("authError").classList.add("hidden");$("authSubmit").disabled=true;try{let email=$("email").value.trim(),password=$("password").value;let r;if(signingUp){r=await db.auth.signUp({email,password,options:{data:{name:$("studentName").value.trim()}}});if(r.error)throw r.error;if(!r.data.session){$("authError").textContent="Account created. Check your email for the confirmation link, then sign in.";show("authError");return;}}else{r=await db.auth.signInWithPassword({email,password});if(r.error)throw r.error;}await loadApp();}catch(err){$("authError").textContent=err.message||"Could not sign in. Please try again.";show("authError");}finally{$("authSubmit").disabled=false;}});
+async function api(action,body={}){const {data:{session}}=await db.auth.getSession();if(!session)throw new Error("Please sign in again.");const r=await fetch(SUPABASE_URL+"/functions/v1/web-api",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+session.access_token},body:JSON.stringify({action,...body})});let j=await r.json();if(!r.ok||j.error)throw new Error(j.error||"Request failed");return j;}
+function addMessage(role,text){const div=document.createElement("div");div.className="message "+(role==="user"?"user":"ai");div.textContent=text;$("chatLog").appendChild(div);$("chatLog").scrollTop=$("chatLog").scrollHeight;}
+async function loadApp(){show("authView",false);show("appView",true);show("logoutBtn",true);try{profile=await api("me");$("userLabel").textContent=profile.profile?.email||"";$("welcome").textContent="Welcome"+(profile.profile?.name?" "+profile.profile.name:"")+". Let's learn.";if(profile.profile?.level)$("levelSelect").value=profile.profile.level;const end=profile.trial_ends_at?new Date(profile.trial_ends_at):null;const days=end?Math.max(0,Math.ceil((end-Date.now())/86400000)):30;$("trialDays").textContent=profile.trial_active?days+" days":(profile.premium?"Active":"Ended");$("trialPill").textContent=profile.trial_active?"30-day free trial":profile.premium?"Membership active":"Trial ended";$("trialPill").className="pill "+(profile.trial_active||profile.premium?"":"warn");$("trialText").textContent=profile.trial_active?"Your free learning period ends "+end.toLocaleDateString()+". All learning features are included during your trial.":profile.premium?"Your monthly membership is active.":"Your free trial has ended. Choose the $5 monthly membership to continue.";await loadProgress();}catch(e){console.error(e);notice("chatStatus",e.message,"error");}}
+$("saveProfile").onclick=async()=>{try{if(!$("levelSelect").value)throw new Error("Choose your level first.");profile=await api("set_profile",{level:$("levelSelect").value});notice("chatStatus","Your level has been saved.","success");}catch(e){notice("chatStatus",e.message,"error");}};
+$("logoutBtn").onclick=async()=>{await db.auth.signOut();profile=null;show("appView",false);show("authView",true);show("logoutBtn",false);$("userLabel").textContent="";};
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));["tutor","practice","mock","progress","billing"].forEach(t=>show("tab-"+t,t===b.dataset.tab));if(b.dataset.tab==="progress")loadProgress();});
+$("chatForm").onsubmit=async e=>{e.preventDefault();const text=$("chatInput").value.trim();if(!text)return;if(!profile?.profile?.level){notice("chatStatus","Please choose and save your level first.","error");return;}addMessage("user",text);$("chatInput").value="";$("chatStatus").textContent="Teacher Victor is preparing an explanation...";try{const r=await api("chat",{text});if(r.paywall){addMessage("assistant",r.message);document.querySelector('[data-tab="billing"]').click();}else{addMessage("assistant",r.answer+(r.note?"\n\n"+r.note:""));}$("chatStatus").textContent="";}catch(e){addMessage("assistant",e.message);$("chatStatus").textContent="";}};
+$("clearChat").onclick=()=>{$("chatLog").innerHTML="";addMessage("assistant","Chat cleared. What would you like to learn today?");};
+async function generate(kind,subjectId,topicId,resultId,paperId){try{if(!profile?.profile?.level)throw new Error("Choose and save your level first.");const subject=$(subjectId).value.trim(),topic=$(topicId).value.trim();if(!subject||!topic)throw new Error("Enter a subject and topic first.");$(resultId).textContent="Preparing your questions...";show(resultId,true);const r=await api("generate",{kind,topic:subject+" — "+topic});if(r.needs_payment)throw new Error("This feature needs a paid learning pack. See Membership.");currentPaperKind=kind;currentPaper=r.text;$(paperId).textContent=r.text;show(kind==="mock"?"mockResult":"practiceResult",true);notice(kind==="mock"?"mockFeedback":"practiceFeedback","");}catch(e){notice(kind==="mock"?"mockFeedback":"practiceFeedback",e.message,"error");}}
+$("makeAssignment").onclick=()=>generate("assignment","assignmentSubject","assignmentTopic","practiceFeedback","practicePaper");
+$("makeRevision").onclick=async()=>{try{const subject=$("assignmentSubject").value.trim(),topic=$("assignmentTopic").value.trim();if(!subject||!topic)throw new Error("Enter a subject and topic first.");const r=await api("generate",{kind:"revision",topic:subject+" — "+topic});notice("practiceFeedback",r.text,"");show("practiceFeedback",true);}catch(e){notice("practiceFeedback",e.message,"error");show("practiceFeedback",true);}};
+$("makeMock").onclick=()=>generate("mock","mockSubject","mockTopic","mockFeedback","mockPaper");
+$("cancelPaper").onclick=async()=>{try{await api("cancel_paper");currentPaper=null;show("practiceResult",false);show("mockResult",false);}catch(e){notice("practiceFeedback",e.message,"error");}};
+async function submitAnswers(kind,answersId,feedbackId){try{const answers=$(answersId).value.trim();if(!answers)throw new Error("Write your answers first.");const r=await api("mark",{answers});notice(feedbackId,`Your mark: ${r.score}/${r.out_of} (${r.percent}%)\n\n${r.feedback}`,"success");show(feedbackId,true);show(kind==="mock"?"mockResult":"practiceResult",false);$(answersId).value="";await loadProgress();}catch(e){notice(feedbackId,e.message,"error");show(feedbackId,true);}}
+$("submitPractice").onclick=()=>submitAnswers("assignment","practiceAnswers","practiceFeedback");
+$("submitMock").onclick=()=>submitAnswers("mock","mockAnswers","mockFeedback");
+async function loadProgress(){try{const r=await api("me");profile=r;const p=await api("progress");const marked=(p.activities||[]).filter(x=>x.out_of);$("completedCount").textContent=p.completed||0;$("averageScore").textContent=p.average===null?"—":p.average+"%";$("progressList").innerHTML=marked.length?marked.map(x=>`<div class="list-item"><div><b>${safe(x.subject||"Practice")}</b><div class="tiny muted">${safe(x.kind)} · ${new Date(x.at).toLocaleDateString()}</div></div><b>${Number(x.score)}/${Number(x.out_of)} (${Math.round(Number(x.score)/Number(x.out_of)*100)}%)</b></div>`).join(""):'<p class="muted">No marked work yet. Complete an exercise or mock test to see your progress.</p>';}catch(e){$("progressList").textContent=e.message;}}
+$("refreshProgress").onclick=loadProgress;
+$("makeReport").onclick=async()=>{try{const r=await api("report");if(r.needs_payment)throw new Error("A performance report requires membership or a report pack.");notice("reportResult",r.text,"success");}catch(e){notice("reportResult",e.message,"error");}show("reportResult",true);};
+$("buyMonthly").onclick=async()=>{try{const r=await api("order",{code:"premium_monthly",units:1});currentOrder=r; $("orderDetails").textContent=`Order reference: ${r.reference}\nAmount: ${r.currency} ${Number(r.amount).toFixed(2)}\nSend payment to EcoCash: ${r.pay_to}${r.account_name?"\nAccount name: "+r.account_name:""}\nOrder expires: ${new Date(r.expires_at).toLocaleString()}`;show("paymentStep",true);notice("paymentStatus","Order created. Follow the instructions above.","success");show("paymentStatus",true);}catch(e){notice("paymentStatus",e.message,"error");show("paymentStatus",true);}};
+$("paymentForm").onsubmit=async e=>{e.preventDefault();if(!currentOrder) return;try{await api("submit_payment",{order_id:currentOrder.id,txn:$("txnId").value.trim(),msisdn:$("payerPhone").value.trim()});notice("paymentStatus","Payment details submitted. Your membership will activate after verification. Keep your EcoCash confirmation message.","success");show("paymentStatus",true);$("paymentForm").reset();}catch(e){notice("paymentStatus",e.message,"error");show("paymentStatus",true);}};
+db.auth.getSession().then(({data:{session}})=>{if(session)loadApp();});
+db.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT"){show("appView",false);show("authView",true);show("logoutBtn",false);}else if(event==="SIGNED_IN"&&!profile)loadApp();});
 </script>
 </body>
 </html>
